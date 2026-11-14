@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiSri Shop | বিশ্রী দোকান — Handcrafted Keepsakes &amp; Curiosities</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Great+Vibes&family=Hind+Siliguri:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-parchment: #F6EFE2;
+      --bg-parchment-deep: #EDE1CC;
+      --bg-card: #FAF6EE;
+      --crimson: #7A0C16;
+      --crimson-dark: #4E060D;
+      --gold: #C59B43;
+      --gold-light: #E6C77A;
+      --gold-bright: #D9AF52;
+      --ink: #241714;
+      --ink-muted: #5C4942;
+      --blush-shadow: #DFB5B0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-parchment);
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(197, 155, 67, 0.14), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(122, 12, 22, 0.08), transparent 50%),
+        repeating-radial-gradient(circle at 50% 35%, rgba(122, 12, 22, 0.025) 0, rgba(122, 12, 22, 0.025) 2px, transparent 2px, transparent 22px);
+      color: var(--ink);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* Sticky Heritage Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(246, 239, 226, 0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 3px solid transparent;
+      border-image: linear-gradient(90deg, var(--crimson), var(--gold), var(--crimson)) 1;
+    }
+
+    .nav-top {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+    }
+
+    .brand-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 58% 42% 46% 54% / 52% 58% 42% 48%;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      border: 2.5px solid var(--crimson);
+      box-shadow: 3px 4px 0 var(--crimson);
+      display: grid;
+      place-items: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--crimson-dark);
+      transition: transform 0.2s ease;
+    }
+
+    .brand-wrap:hover .brand-badge {
+      transform: rotate(-6deg) scale(1.04);
+    }
+
+    .brand-titles {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .brand-script {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      background: linear-gradient(180deg, #8F111E 0%, #56070F 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(1px 1px 0 var(--gold-light));
+    }
+
+    .brand-bn {
+      font-family: 'Hind Siliguri', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--crimson);
+      letter-spacing: 0.03em;
+      margin-top: -2px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .cart-pill {
+      position: relative;
+      background: var(--bg-card);
+      border: 2px solid var(--crimson);
+      box-shadow: 3px 3px 0 var(--gold);
+      border-radius: 16px;
+      padding: 0.35rem 0.85rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.68rem;
+      color: var(--crimson);
+      transition: transform 0.15s ease;
+    }
+
+    .cart-pill:active {
+      transform: translate(2px, 2px);
+    }
+
+    .cart-eye {
+      width: 22px;
+      height: 13px;
+      border: 2px solid var(--crimson);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin-bottom: 2px;
+    }
+
+    .cart-eye::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--crimson);
+      color: var(--gold-light);
+      border: 2px solid var(--gold);
+      border-radius: 999px;
+      min-width: 22px;
+      height: 22px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      padding: 0 4px;
+    }
+
+    .signin-pill {
+      background: transparent;
+      border: 2px solid var(--crimson);
+      box-shadow: 3px 3px 0 var(--blush-shadow);
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--crimson);
+      cursor: pointer;
+    }
+
+    .nav-links {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.45rem 1.25rem 0.65rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      color: var(--ink);
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 0.15rem 0.4rem;
+      border-radius: 6px;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--crimson);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 4rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      align-items: center;
+      padding: 1rem 0 2.5rem;
+    }
+
+    @media (min-width: 840px) {
+      .hero {
+        grid-template-columns: 1.25fr 0.85fr;
+      }
+    }
+
+    .eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--crimson);
+      margin-bottom: 0.65rem;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: clamp(2.1rem, 6vw, 3.65rem);
+      line-height: 1.05;
+      color: var(--crimson);
+      text-shadow:
+        3px 3px 0 var(--gold-light),
+        6px 6px 0 var(--blush-shadow);
+      margin-bottom: 1.15rem;
+      text-transform: uppercase;
+    }
+
+    .hero-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+      max-width: 540px;
+      margin-bottom: 1.65rem;
+    }
+
+    .cta-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+    }
+
+    .tactile-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.45rem;
+      border-radius: 999px;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.84rem;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      cursor: pointer;
+      border: 2.5px solid var(--crimson);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .tactile-btn:hover {
+      transform: translate(-2px, -2px);
+    }
+
+    .tactile-btn:active {
+      transform: translate(2px, 2px);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--crimson-dark);
+      box-shadow: 0 5px 0 var(--crimson);
+    }
+
+    .btn-parchment {
+      background: var(--bg-card);
+      color: var(--crimson);
+      box-shadow: 0 5px 0 var(--gold);
+    }
+
+    .btn-crimson {
+      background: linear-gradient(135deg, var(--crimson), var(--crimson-dark));
+      color: var(--bg-parchment);
+      border-color: var(--gold);
+      box-shadow: 0 5px 0 var(--gold);
+    }
+
+    /* Tilted Hero Showcase Frame */
+    .hero-showcase {
+      position: relative;
+      display: grid;
+      place-items: center;
+      padding: 1.25rem;
+    }
+
+    .ring-gold,
+    .ring-crimson {
+      position: absolute;
+      width: 245px;
+      height: 245px;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .ring-gold {
+      border: 14px solid var(--gold);
+      transform: translate(-28px, 14px);
+      opacity: 0.85;
+    }
+
+    .ring-crimson {
+      border: 14px solid var(--crimson);
+      transform: translate(30px, -12px);
+      opacity: 0.85;
+    }
+
+    .showcase-card {
+      position: relative;
+      width: 255px;
+      background: var(--bg-card);
+      border: 4px solid #FFFFFF;
+      outline: 2.5px solid var(--crimson);
+      border-radius: 24px;
+      padding: 0.9rem;
+      transform: rotate(-3.5deg);
+      box-shadow: 8px 10px 0 rgba(122, 12, 22, 0.22);
+      text-align: center;
+    }
+
+    .showcase-card svg {
+      width: 100%;
+      height: 195px;
+      border-radius: 16px;
+      background: var(--bg-parchment-deep);
+    }
+
+    .showcase-caption {
+      margin-top: 0.55rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--crimson);
+    }
+
+    /* Catalog Toolbar */
+    .catalog-header {
+      margin-top: 1rem;
+      padding-top: 2rem;
+      border-top: 2px dashed rgba(122, 12, 22, 0.25);
+    }
+
+    .catalog-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .stock-tag {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: var(--crimson);
+    }
+
+    .section-heading {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 1.95rem;
+      color: var(--crimson);
+      text-shadow: 2px 2px 0 var(--gold-light);
+    }
+
+    .search-label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--ink-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .search-pill-input {
+      width: 100%;
+      padding: 0.9rem 1.35rem;
+      border-radius: 999px;
+      border: 2.5px solid var(--crimson);
+      box-shadow: 0 5px 0 var(--gold);
+      background: var(--bg-card);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.98rem;
+      color: var(--ink);
+      outline: none;
+      margin-bottom: 1.35rem;
+    }
+
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cat-chip {
+      padding: 0.45rem 1.05rem;
+      border-radius: 999px;
+      border: 2px solid var(--crimson);
+      background: var(--bg-card);
+      color: var(--crimson);
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.76rem;
+      cursor: pointer;
+      box-shadow: 2px 3px 0 var(--blush-shadow);
+    }
+
+    .cat-chip.active {
+      background: var(--crimson);
+      color: var(--gold-light);
+      box-shadow: 2px 3px 0 var(--gold);
+    }
+
+    .wavy-divider {
+      width: 100%;
+      height: 12px;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Product Cards Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border: 2.5px solid var(--crimson);
+      box-shadow: 6px 6px 0 var(--gold);
+      border-radius: 26px;
+      padding: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .carousel-frame {
+      position: relative;
+      border-radius: 20px;
+      border: 2.5px solid var(--gold);
+      background: var(--bg-parchment-deep);
+      height: 235px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 0.75rem;
+    }
+
+    .carousel-frame svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .nav-circle {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--crimson);
+      background: var(--gold-light);
+      color: var(--crimson-dark);
+      font-weight: 900;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      box-shadow: 2px 2px 0 var(--crimson);
+    }
+
+    .nav-circle.prev { left: 10px; }
+    .nav-circle.next { right: 10px; }
+
+    .dots {
+      position: absolute;
+      bottom: 10px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      border: 1.5px solid var(--crimson);
+      background: var(--bg-card);
+    }
+
+    .dot.active {
+      background: var(--crimson);
+    }
+
+    .badge-pill {
+      align-self: flex-start;
+      background: var(--gold-light);
+      color: var(--crimson-dark);
+      border: 1.5px solid var(--crimson);
+      border-radius: 999px;
+      padding: 0.2rem 0.75rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    .prod-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--crimson-dark);
+      line-height: 1.15;
+    }
+
+    .prod-desc {
+      font-size: 0.92rem;
+      color: var(--ink-muted);
+    }
+
+    .price-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .price-tag {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 1.35rem;
+      color: var(--crimson);
+      text-shadow: 1.5px 1.5px 0 var(--gold-light);
+    }
+
+    .card-btns {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .add-btn {
+      background: var(--bg-parchment);
+      color: var(--crimson);
+      border: 2px solid var(--crimson);
+      box-shadow: 3px 3px 0 var(--gold);
+      border-radius: 14px;
+      padding: 0.5rem 0.95rem;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+    }
+
+    .buy-now-btn {
+      background: var(--crimson);
+      color: var(--gold-light);
+      border: 2px solid var(--gold);
+      box-shadow: 3px 3px 0 var(--crimson-dark);
+      border-radius: 14px;
+      padding: 0.5rem 0.95rem;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Live Firebase Reviews Block */
+    .reviews-box {
+      margin-top: 0.5rem;
+      padding-top: 0.85rem;
+      border-top: 1.5px dashed rgba(122, 12, 22, 0.25);
+    }
+
+    .reviews-title {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: var(--crimson);
+      margin-bottom: 0.45rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .db-status {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--ink-muted);
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      max-height: 150px;
+      overflow-y: auto;
+      margin-bottom: 0.65rem;
+    }
+
+    .review-item {
+      background: var(--bg-parchment);
+      border: 1px solid rgba(197, 155, 67, 0.55);
+      border-radius: 12px;
+      padding: 0.5rem 0.7rem;
+      font-size: 0.84rem;
+    }
+
+    .review-author {
+      font-weight: 700;
+      color: var(--crimson);
+      font-size: 0.76rem;
+    }
+
+    .review-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .review-input {
+      width: 100%;
+      border: 2px solid var(--crimson);
+      border-radius: 12px;
+      padding: 0.5rem 0.75rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: #FFFFFF;
+    }
+
+    .review-submit {
+      align-self: flex-end;
+      background: var(--gold-light);
+      color: var(--crimson-dark);
+      border: 2px solid var(--crimson);
+      border-radius: 999px;
+      padding: 0.32rem 0.9rem;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      cursor: pointer;
+    }
+
+    /* Slide-Over Cart Drawer */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(36, 23, 20, 0.55);
+      display: none;
+      justify-content: flex-end;
+      z-index: 100;
+    }
+
+    .drawer-backdrop.open {
+      display: flex;
+    }
+
+    .cart-drawer {
+      width: min(410px, 100%);
+      background: var(--bg-parchment);
+      border-left: 3px solid var(--crimson);
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 0.75rem;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .cart-row {
+      background: var(--bg-card);
+      border: 2px solid var(--crimson);
+      border-radius: 16px;
+      padding: 0.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .qty-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid var(--crimson);
+      background: var(--gold-light);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .drawer-footer {
+      border-top: 2px solid var(--gold);
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .checkout-note {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      background: var(--bg-card);
+      padding: 0.55rem 0.75rem;
+      border-radius: 12px;
+      border: 1px dashed var(--crimson);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      border-top: 2px solid rgba(197, 155, 67, 0.5);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--ink-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="nav-top">
+      <a href="#" class="brand-wrap">
+        <div class="brand-badge">BS</div>
+        <div class="brand-titles">
+          <span class="brand-script">BiSri Shop</span>
+          <span class="brand-bn">বিশ্রী দোকান</span>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <button class="cart-pill" id="openCartBtn" aria-label="Open Cart">
+          <span class="cart-eye"></span>
+          <span>CART</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="signin-pill" onclick="alert('Customer account sign-in can be linked to Firebase Auth anytime!')">Sign in</button>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#products">Products</a>
+      <a href="#custom">Custom</a>
+      <a href="#about">About</a>
+      <a href="https://www.youtube.com" target="_blank" rel="noopener">BiSri Diaries</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div>
+        <p class="eyebrow">KEEPSAKES FROM OUR CHRONICLES</p>
+        <h1 class="hero-title">BISRI MAKES KEEPSAKES, CURIOSITIES &amp; GIFTS WITH SOUL.</h1>
+        <p class="hero-sub">
+          Handcrafted heirlooms, brass &amp; terracotta accents, and miniature desk treasures inspired by Bengali heritage and everyday storytelling.
+        </p>
+        <div class="cta-cluster">
+          <a href="#products" class="tactile-btn btn-gold">SHOP PRODUCTS</a>
+          <a href="#products" class="tactile-btn btn-parchment">CATEGORIES</a>
+          <a href="https://www.youtube.com" target="_blank" rel="noopener" class="tactile-btn btn-crimson">@ WATCH ON YOUTUBE</a>
+        </div>
+      </div>
+
+      <div class="hero-showcase">
+        <div class="ring-gold"></div>
+        <div class="ring-crimson"></div>
+        <div class="showcase-card">
+          <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+            <rect width="200" height="180" rx="14" fill="#EDE1CC"/>
+            <path d="M100 22 C125 38, 155 32, 165 58 C175 84, 152 115, 160 138 C135 148, 118 164, 100 160 C82 164, 65 148, 40 138 C48 115, 25 84, 35 58 C45 32, 75 38, 100 22 Z" fill="#FAF6EE" stroke="#7A0C16" stroke-width="5"/>
+            <circle cx="100" cy="92" r="34" fill="none" stroke="#C59B43" stroke-width="4" stroke-dasharray="6 4"/>
+            <path d="M100 72 C108 62, 122 68, 122 80 C122 94, 100 110, 100 110 C100 110, 78 94, 78 80 C78 68, 92 62, 100 72 Z" fill="#7A0C16"/>
+          </svg>
+          <div class="showcase-caption">Alpona Clay Trinket Dish</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="catalog-header" id="products">
+      <div class="catalog-top-row">
+        <span class="stock-tag">FRESH STOCK</span>
+        <h2 class="section-heading">PRODUCTS</h2>
+      </div>
+
+      <label class="search-label" for="searchInput">SEARCH PRODUCTS</label>
+      <input type="text" id="searchInput" class="search-pill-input" placeholder="Search keepsakes, brassware, gifts..." />
+
+      <div class="category-pills" id="categoryPills">
+        <button class="cat-chip active" data-cat="ALL">ALL</button>
+        <button class="cat-chip" data-cat="TRINKET DISHES">TRINKET DISHES</button>
+        <button class="cat-chip" data-cat="DESK KEEPSAKES">DESK KEEPSAKES</button>
+        <button class="cat-chip" data-cat="GIFT SETS">GIFT SETS</button>
+      </div>
+
+      <svg class="wavy-divider" viewBox="0 0 600 14" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="bisriWave" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#C59B43"/>
+            <stop offset="50%" stop-color="#7A0C16"/>
+            <stop offset="100%" stop-color="#C59B43"/>
+          </linearGradient>
+        </defs>
+        <path d="M0 7 Q 75 0, 150 7 T 300 7 T 450 7 T 600 7" fill="none" stroke="url(#bisriWave)" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <!-- Custom Orders -->
+    <section class="catalog-header" id="custom" style="margin-top:3rem;">
+      <div class="catalog-top-row">
+        <span class="stock-tag">BESPOKE STUDIO</span>
+        <h2 class="section-heading">CUSTOM KEEPSAKES</h2>
+      </div>
+      <p style="color:var(--ink-muted); max-width:650px; margin-bottom:1rem;">
+        Want custom Bengali calligraphy, anniversary dates, or a miniature diorama piece made to order? Drop your request below or reach out on YouTube.
+      </p>
+    </section>
+  </main>
+
+  <footer id="about">
+    <strong>BiSri Shop • বিশ্রী দোকান</strong> — A Chronicle of Love, Laughter &amp; Legacy
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div class="drawer-backdrop" id="cartBackdrop">
+    <aside class="cart-drawer">
+      <div>
+        <div class="drawer-header">
+          <h3 style="font-family:'Cinzel',serif; color:var(--crimson);">YOUR KEEPSAKE CART</h3>
+          <button id="closeCartBtn" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--crimson);">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItemsList"></div>
+      </div>
+
+      <div class="drawer-footer">
+        <div style="display:flex;justify-content:space-between;font-family:'Cinzel',serif;font-weight:900;font-size:1.15rem;color:var(--crimson);">
+          <span>TOTAL</span>
+          <span id="cartTotal">RS 0</span>
+        </div>
+        <div class="checkout-note" id="checkoutHint">
+          Single-item orders open your exact Razorpay Payment Link. Multi-item carts open Razorpay.me so you can pay the combined total in one step.
+        </div>
+        <button class="tactile-btn btn-crimson" id="razorpayCheckoutBtn" style="width:100%;">
+          PAY WITH RAZORPAY
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Firebase Modular SDK + Storefront Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      query,
+      orderBy,
+      onSnapshot,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    // =========================================================================
+    // 1. PASTE YOUR FIREBASE CONFIG HERE (from Firebase Console -> Project Settings)
+    // =========================================================================
+    const FIREBASE_CONFIG = {
+      apiKey: "PASTE_YOUR_API_KEY",
+      authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
+      projectId: "PASTE_YOUR_PROJECT_ID",
+      storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
+      messagingSenderId: "PASTE_YOUR_SENDER_ID",
+      appId: "PASTE_YOUR_APP_ID"
+    };
+
+    // =========================================================================
+    // 2. PASTE YOUR RAZORPAY.ME HANDLE & PRODUCT PAYMENT LINKS HERE
+    // =========================================================================
+    const RAZORPAY_ME_URL = "https://razorpay.me/@YOUR_HANDLE";
+
+    const PRODUCTS = [
+      {
+        id: "alpona-dish",
+        category: "TRINKET DISHES",
+        title: "Alpona Clay Trinket Dish",
+        desc: "Hand-sculpted terracotta-white ring dish edged in sindoor crimson and burnished gold leaf.",
+        price: 680,
+        paymentLink: "https://rzp.io/l/REPLACE_WITH_PRODUCT_1_LINK",
+        slides: [
+          `<svg viewBox="0 0 200 180"><circle cx="100" cy="90" r="65" fill="#FAF6EE" stroke="#7A0C16" stroke-width="5"/><circle cx="100" cy="90" r="46" fill="none" stroke="#C59B43" stroke-width="3" stroke-dasharray="5 5"/><path d="M100 68 C110 56, 126 64, 126 78 C126 94, 100 112, 100 112 C100 112, 74 94, 74 78 C74 64, 90 56, 100 68 Z" fill="#7A0C16"/></svg>`,
+          `<svg viewBox="0 0 200 180"><rect x="35" y="45" width="130" height="90" rx="45" fill="#FAF6EE" stroke="#C59B43" stroke-width="5"/><circle cx="100" cy="90" r="22" fill="#7A0C16"/></svg>`
+        ]
+      },
+      {
+        id: "brass-locket-journal",
+        category: "DESK KEEPSAKES",
+        title: "Zamindari Brass-Locket Diary",
+        desc: "Deckle-edge cotton rag journal bound in maroon linen with an antique heart locket clasp.",
+        price: 850,
+        paymentLink: "https://rzp.io/l/REPLACE_WITH_PRODUCT_2_LINK",
+        slides: [
+          `<svg viewBox="0 0 200 180"><rect x="48" y="24" width="104" height="132" rx="10" fill="#7A0C16" stroke="#C59B43" stroke-width="4"/><rect x="60" y="36" width="80" height="108" rx="4" fill="none" stroke="#E6C77A" stroke-width="2"/><circle cx="145" cy="90" r="14" fill="#C59B43" stroke="#4E060D" stroke-width="2"/></svg>`,
+          `<svg viewBox="0 0 200 180"><rect x="40" y="35" width="120" height="110" rx="8" fill="#FAF6EE" stroke="#7A0C16" stroke-width="4"/><line x1="100" y1="35" x2="100" y2="145" stroke="#C59B43" stroke-width="3"/></svg>`
+        ]
+      },
+      {
+        id: "heritage-gift-box",
+        category: "GIFT SETS",
+        title: "BiSri Heirloom Gift Trunk",
+        desc: "Curated keepsake hamper pairing a mini brass diya, calligraphy bookmark, and wax-sealed note.",
+        price: 1290,
+        paymentLink: "https://rzp.io/l/REPLACE_WITH_PRODUCT_3_LINK",
+        slides: [
+          `<svg viewBox="0 0 200 180"><rect x="35" y="55" width="130" height="85" rx="12" fill="#C59B43" stroke="#7A0C16" stroke-width="4"/><path d="M35 75 H165" stroke="#7A0C16" stroke-width="6"/><circle cx="100" cy="75" r="14" fill="#7A0C16" stroke="#FAF6EE" stroke-width="2"/></svg>`,
+          `<svg viewBox="0 0 200 180"><circle cx="75" cy="95" r="30" fill="#FAF6EE" stroke="#7A0C16" stroke-width="4"/><circle cx="128" cy="95" r="30" fill="#E6C77A" stroke="#7A0C16" stroke-width="4"/></svg>`
+        ]
+      }
+    ];
+
+    // Initialize Firebase safely (falls back gracefully until you paste your keys)
+    let db = null;
+    const isFirebaseConfigured = FIREBASE_CONFIG.apiKey !== "PASTE_YOUR_API_KEY";
+    if (isFirebaseConfigured) {
+      const app = initializeApp(FIREBASE_CONFIG);
+      db = getFirestore(app);
+    }
+
+    // Store State
+    let activeCategory = "ALL";
+    let searchTerm = "";
+    const slideIndex = {};
+    const cart = {};
+    const reviewsByProduct = {};
+
+    PRODUCTS.forEach((p) => {
+      slideIndex[p.id] = 0;
+      reviewsByProduct[p.id] = [];
+    });
+
+    // Listen to Real-Time Firestore Reviews
+    if (db) {
+      const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
+      onSnapshot(q, (snapshot) => {
+        PRODUCTS.forEach((p) => (reviewsByProduct[p.id] = []));
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          if (reviewsByProduct[data.productId]) {
+            reviewsByProduct[data.productId].push(data);
+          }
+        });
+        renderProducts();
+      });
+    }
+
+    function renderProducts() {
+      const grid = document.getElementById("productGrid");
+      const filtered = PRODUCTS.filter((p) => {
+        const matchesCat = activeCategory === "ALL" || p.category === activeCategory;
+        const matchesSearch =
+          p.title.toLowerCase().includes(searchTerm) ||
+          p.desc.toLowerCase().includes(searchTerm);
+        return matchesCat && matchesSearch;
+      });
+
+      grid.innerHTML = filtered
+        .map((p) => {
+          const idx = slideIndex[p.id] || 0;
+          const prodReviews = reviewsByProduct[p.id] || [];
+          const reviewsHtml =
+            prodReviews.length === 0
+              ? `<p style="font-size:0.82rem;color:var(--ink-muted);">No reviews yet. Be the first!</p>`
+              : prodReviews
+                  .map(
+                    (r) => `
+                <div class="review-item">
+                  <div class="review-author">${escapeHtml(r.author || "Verified Buyer")}</div>
+                  <div>${escapeHtml(r.text)}</div>
+                </div>`
+                  )
+                  .join("");
+
+          return `
+          <article class="product-card">
+            <div class="carousel-frame">
+              ${p.slides[idx]}
+              <button class="nav-circle prev" data-slide="${p.id}" data-dir="-1" aria-label="Previous photo">&lt;</button>
+              <button class="nav-circle next" data-slide="${p.id}" data-dir="1" aria-label="Next photo">&gt;</button>
+              <div class="dots">
+                ${p.slides
+                  .map((_, i) => `<span class="dot ${i === idx ? "active" : ""}"></span>`)
+                  .join("")}
+              </div>
+            </div>
+
+            <span class="badge-pill">${p.category}</span>
+            <h3 class="prod-title">${p.title}</h3>
+            <p class="prod-desc">${p.desc}</p>
+
+            <div class="price-action-row">
+              <span class="price-tag">RS ${p.price}</span>
+              <div class="card-btns">
+                <button class="add-btn" data-add="${p.id}">Add</button>
+                <a class="buy-now-btn" href="${p.paymentLink}" target="_blank" rel="noopener">Buy Now</a>
+              </div>
+            </div>
+
+            <div class="reviews-box">
+              <div class="reviews-title">
+                <span>REVIEWS (${prodReviews.length})</span>
+                <span class="db-status">${isFirebaseConfigured ? "● Live Cloud" : "○ Demo Mode"}</span>
+              </div>
+              <div class="review-list">${reviewsHtml}</div>
+              <form class="review-form" data-review-form="${p.id}">
+                <input type="text" name="author" class="review-input" placeholder="Your name" maxlength="40" required />
+                <input type="text" name="text" class="review-input" placeholder="Write a review..." maxlength="400" required />
+                <button type="submit" class="review-submit">Post Review</button>
+              </form>
+            </div>
+          </article>`;
+        })
+        .join("");
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    // Event Delegation for Carousel, Cart Add, and Review Submission
+    document.getElementById("productGrid").addEventListener("click", (e) => {
+      const slideBtn = e.target.closest("[data-slide]");
+      if (slideBtn) {
+        const id = slideBtn.dataset.slide;
+        const dir = Number(slideBtn.dataset.dir);
+        const prod = PRODUCTS.find((p) => p.id === id);
+        slideIndex[id] = (slideIndex[id] + dir + prod.slides.length) % prod.slides.length;
+        renderProducts();
+        return;
+      }
+
+      const addBtn = e.target.closest("[data-add]");
+      if (addBtn) {
+        const id = addBtn.dataset.add;
+        cart[id] = (cart[id] || 0) + 1;
+        updateCartUI();
+      }
+    });
+
+    document.getElementById("productGrid").addEventListener("submit", async (e) => {
+      const form = e.target.closest("[data-review-form]");
+      if (!form) return;
+      e.preventDefault();
+
+      const productId = form.dataset.reviewForm;
+      const author = form.author.value.trim();
+      const text = form.text.value.trim();
+      if (!text) return;
+
+      if (db) {
+        await addDoc(collection(db, "reviews"), {
+          productId,
+          author: author || "Guest",
+          text,
+          createdAt: serverTimestamp()
+        });
+      } else {
+        reviewsByProduct[productId].unshift({ author: author || "Guest", text });
+        renderProducts();
+      }
+      form.reset();
+    });
+
+    // Search & Category Filters
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      searchTerm = e.target.value.toLowerCase().trim();
+      renderProducts();
+    });
+
+    document.getElementById("categoryPills").addEventListener("click", (e) => {
+      const chip = e.target.closest(".cat-chip");
+      if (!chip) return;
+      document.querySelectorAll(".cat-chip").forEach((c) => c.classList.remove("active"));
+      chip.classList.add("active");
+      activeCategory = chip.dataset.cat;
+      renderProducts();
+    });
+
+    // Cart Drawer & Razorpay Checkout Logic
+    function updateCartUI() {
+      const entries = Object.entries(cart).filter(([, qty]) => qty > 0);
+      const totalQty = entries.reduce((sum, [, qty]) => sum + qty, 0);
+      const totalAmount = entries.reduce((sum, [id, qty]) => {
+        const p = PRODUCTS.find((item) => item.id === id);
+        return sum + p.price * qty;
+      }, 0);
+
+      document.getElementById("cartCount").textContent = totalQty;
+      document.getElementById("cartTotal").textContent = `RS ${totalAmount}`;
+
+      const list = document.getElementById("cartItemsList");
+      if (entries.length === 0) {
+        list.innerHTML = `<p style="color:var(--ink-muted);">Your cart is empty.</p>`;
+      } else {
+        list.innerHTML = entries
+          .map(([id, qty]) => {
+            const p = PRODUCTS.find((item) => item.id === id);
+            return `
+            <div class="cart-row">
+              <div>
+                <div style="font-weight:700;color:var(--crimson-dark);">${p.title}</div>
+                <div style="font-size:0.85rem;color:var(--ink-muted);">RS ${p.price} &times; ${qty}</div>
+              </div>
+              <div class="qty-controls">
+                <button class="qty-btn" data-qty-id="${id}" data-delta="-1">-</button>
+                <strong>${qty}</strong>
+                <button class="qty-btn" data-qty-id="${id}" data-delta="1">+</button>
+              </div>
+            </div>`;
+          })
+          .join("");
+      }
+    }
+
+    document.getElementById("cartItemsList").addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-qty-id]");
+      if (!btn) return;
+      const id = btn.dataset.qtyId;
+      cart[id] = Math.max(0, (cart[id] || 0) + Number(btn.dataset.delta));
+      updateCartUI();
+    });
+
+    document.getElementById("openCartBtn").addEventListener("click", () => {
+      document.getElementById("cartBackdrop").classList.add("open");
+    });
+
+    document.getElementById("closeCartBtn").addEventListener("click", () => {
+      document.getElementById("cartBackdrop").classList.remove("open");
+    });
+
+    document.getElementById("razorpayCheckoutBtn").addEventListener("click", () => {
+      const entries = Object.entries(cart).filter(([, qty]) => qty > 0);
+      if (entries.length === 0) {
+        alert("Please add at least one keepsake to your cart first.");
+        return;
+      }
+
+      // If exactly 1 item (qty 1), redirect straight to that product's fixed Razorpay Payment Link
+      if (entries.length === 1 && entries[0][1] === 1) {
+        const prod = PRODUCTS.find((p) => p.id === entries[0][0]);
+        window.open(prod.paymentLink, "_blank", "noopener");
+      } else {
+        // For multi-item carts, open your Razorpay.me page where the buyer enters the exact total
+        window.open(RAZORPAY_ME_URL, "_blank", "noopener");
+      }
+    });
+
+    renderProducts();
+    updateCartUI();
+  </script>
+</body>
+</html>
