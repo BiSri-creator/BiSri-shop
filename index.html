@@ -1231,3 +1231,55 @@
   </script>
 </body>
 </html>
+<!-- Razorpay Compliance Footer & Policy Modals -->
+<footer style="background-color: #2b1810; color: #f5ebd6; padding: 32px 20px; text-align: center; font-family: inherit; margin-top: 48px; border-top: 2px solid #c59b27;">
+  <div style="max-width: 900px; margin: 0 auto;">
+    <p style="font-weight: bold; font-size: 1.1rem; margin-bottom: 12px; color: #c59b27;">BiSri Shop (বিশ্রী দোকান)</p>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; margin-bottom: 16px; font-size: 0.9rem;">
+      <a href="#policy-contact" onclick="openPolicyModal('contact'); return false;" style="color: #f5ebd6; text-decoration: underline;">Contact Us</a>
+      <a href="#policy-terms" onclick="openPolicyModal('terms'); return false;" style="color: #f5ebd6; text-decoration: underline;">Terms &amp; Conditions</a>
+      <a href="#policy-privacy" onclick="openPolicyModal('privacy'); return false;" style="color: #f5ebd6; text-decoration: underline;">Privacy Policy</a>
+      <a href="#policy-refund" onclick="openPolicyModal('refund'); return false;" style="color: #f5ebd6; text-decoration: underline;">Refund &amp; Shipping Policy</a>
+    </div>
+    <p style="font-size: 0.8rem; opacity: 0.8;">&copy; 2026 BiSri Shop. All rights reserved.</p>
+  </div>
+</footer>
+
+<div id="policyModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 9999; align-items: center; justify-content: center; padding: 16px;">
+  <div style="background: #fdf8ee; color: #2b1810; max-width: 600px; width: 100%; max-height: 80vh; overflow-y: auto; border-radius: 12px; padding: 24px; border: 2px solid #7a1c1c; position: relative; text-align: left;">
+    <button onclick="closePolicyModal()" style="position: absolute; top: 14px; right: 16px; background: #7a1c1c; color: #fff; border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; font-weight: bold;">X</button>
+    <h3 id="policyTitle" style="color: #7a1c1c; margin-top: 0; margin-bottom: 12px;"></h3>
+    <div id="policyBody" style="font-size: 0.92rem; line-height: 1.6;"></div>
+  </div>
+</div>
+
+<script>
+  const bisriPolicies = {
+    contact: {
+      title: "Contact Us",
+      body: "<p>For order inquiries, custom requests, or support, reach out to us:</p><p><strong>Business Name:</strong> BiSri Shop<br><strong>Email:</strong> bisridiaries@gmail.com <em>(replace with your actual email)</em><br><strong>Phone:</strong> +91-XXXXXXXXXX <em>(replace with your number)</em><br><strong>Operating Address:</strong> West Bengal, India <em>(add your city/PIN code)</em></p>"
+    },
+    terms: {
+      title: "Terms & Conditions",
+      body: "<p>Welcome to BiSri Shop. By browsing and placing an order on <strong>bisri-shop.vercel.app</strong>, you agree to the following terms:</p><ul><li>All keepsakes, brass/terracotta accents, and custom items are handcrafted; slight variations in finish or texture are natural.</li><li>Prices are listed in Indian Rupees (INR) and are subject to change without prior notice.</li><li>Orders are confirmed only after successful payment via our authorized payment gateway (Razorpay).</li></ul>"
+    },
+    privacy: {
+      title: "Privacy Policy",
+      body: "<p>BiSri Shop respects your privacy and protects your personal information:</p><ul><li>We collect your name, shipping address, email, and phone number solely to process and deliver your orders.</li><li>Online payments are processed securely through <strong>Razorpay</strong>; we do not store your card, UPI, or bank credentials on our servers.</li><li>We never sell or share your personal details with third parties except courier partners required to deliver your parcel.</li></ul>"
+    },
+    refund: {
+      title: "Refund, Cancellation & Shipping Policy",
+      body: "<p><strong>Shipping:</strong> Ready-to-ship items are dispatched within 3–5 business days. Custom handcrafted orders take 7–12 business days to craft and ship across India.</p><p><strong>Cancellations:</strong> Orders can be cancelled within 12 hours of placement before dispatch. Custom-made items cannot be cancelled once crafting has begun.</p><p><strong>Refunds & Replacements:</strong> If an item arrives damaged in transit, share an unboxing video within 48 hours of delivery. Approved refunds are processed back to the original payment method within 5–7 business days.</p>"
+    }
+  };
+
+  function openPolicyModal(type) {
+    document.getElementById("policyTitle").innerText = bisriPolicies[type].title;
+    document.getElementById("policyBody").innerHTML = bisriPolicies[type].body;
+    document.getElementById("policyModal").style.display = "flex";
+  }
+
+  function closePolicyModal() {
+    document.getElementById("policyModal").style.display = "none";
+  }
+</script>
