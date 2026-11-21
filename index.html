@@ -948,18 +948,17 @@
     const RAZORPAY_ME_URL = "https://razorpay.me/@YOUR_HANDLE";
 
     const PRODUCTS = [
-      {
-        id: "alpona-dish",
-        category: "TRINKET DISHES",
-        title: "Alpona Clay Trinket Dish",
-        desc: "Hand-sculpted terracotta-white ring dish edged in sindoor crimson and burnished gold leaf.",
-        price: 680,
-        paymentLink: "https://rzp.io/l/REPLACE_WITH_PRODUCT_1_LINK",
-        slides: [
-          `<svg viewBox="0 0 200 180"><circle cx="100" cy="90" r="65" fill="#FAF6EE" stroke="#7A0C16" stroke-width="5"/><circle cx="100" cy="90" r="46" fill="none" stroke="#C59B43" stroke-width="3" stroke-dasharray="5 5"/><path d="M100 68 C110 56, 126 64, 126 78 C126 94, 100 112, 100 112 C100 112, 74 94, 74 78 C74 64, 90 56, 100 68 Z" fill="#7A0C16"/></svg>`,
-          `<svg viewBox="0 0 200 180"><rect x="35" y="45" width="130" height="90" rx="45" fill="#FAF6EE" stroke="#C59B43" stroke-width="5"/><circle cx="100" cy="90" r="22" fill="#7A0C16"/></svg>`
-        ]
-      },
+  {
+    id: "wedding-piri",
+    category: "Wedding Collections", // <-- Match the exact key name used in your other products (e.g., category or badge)
+    name: "Saptopak Wedding Piri (Large Size)",
+    price: 1999,
+    description: "Hand-painted traditional Bengali wooden wedding piri adorned with intricate alpona motifs.",
+    image: "./saptopak-wedding-piri-largesize.jpg" // <-- Match your uploaded filename (or images: ["./wedding-piri.jpg"] if array)
+  },
+  // ...existing products stay below
+      ];
+    },
       {
         id: "brass-locket-journal",
         category: "DESK KEEPSAKES",
