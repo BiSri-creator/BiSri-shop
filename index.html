@@ -1027,7 +1027,12 @@
       slideIndex[p.id] = 0;
       reviewsByProduct[p.id] = [];
     });
-
+          if (isFirebaseConfigured) {
+      const app = initializeApp(FIREBASE_CONFIG);
+      db = getFirestore(app);
+    }
+    // 👇 ADD THIS LINE RIGHT HERE so the checkout modal can save orders to Firebase:
+    window.bisriFirebase = { db, collection, addDoc, serverTimestamp };
     // Listen to Real-Time Firestore Reviews
     if (db) {
       const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
@@ -1091,7 +1096,7 @@
               <span class="price-tag">RS ${p.price}</span>
               <div class="card-btns">
                 <button class="add-btn" data-add="${p.id}">Add</button>
-                <a class="buy-now-btn" href="${p.paymentLink}" target="_blank" rel="noopener">Buy Now</a>
+                <button type="button" class="buy-now-btn" onclick="openCheckout('${p.title.replace(/'/g, "\\'")}', ${p.price})">Buy Now</button>
               </div>
             </div>
 
@@ -1274,7 +1279,82 @@
     <div id="policyBody" style="font-size: 0.92rem; line-height: 1.6;"></div>
   </div>
 </div>
+<!-- CHECKOUT MODAL (Amazon/Flipkart Style) -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<div id="checkoutModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:9999; justify-content:center; align-items:center; padding:15px;">
+  <div style="background:#fff; width:100%; max-width:460px; border-radius:12px; padding:22px; max-height:90vh; overflow-y:auto; font-family:sans-serif; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+    
+    <!-- Header -->
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">
+      <h3 style="margin:0; font-size:18px; color:#222;">Delivery Address & Checkout</h3>
+      <button onclick="closeCheckout()" style="background:none; border:none; font-size:22px; cursor:pointer; color:#666;">&times;</button>
+    </div>
 
+    <!-- Shipping Form -->
+    <form id="shippingForm" onsubmit="handleCheckoutPayment(event)">
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px; font-weight:bold; color:#444;">Full Name *</label>
+        <input type="text" id="custName" required placeholder="e.g. Rohan Sharma" style="width:100%; padding:9px; margin-top:4px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;">
+      </div>
+
+      <div style="display:flex; gap:10px; margin-bottom:10px;">
+        <div style="flex:1;">
+          <label style="font-size:12px; font-weight:bold; color:#444;">Mobile Number *</label>
+          <input type="tel" id="custPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number" style="width:100%; padding:9px; margin-top:4px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;">
+        </div>
+        <div style="flex:1;">
+          <label style="font-size:12px; font-weight:bold; color:#444;">Pincode *</label>
+          <input type="text" id="custPincode" required pattern="[0-9]{6}" maxlength="6" placeholder="6-digit Pincode" oninput="checkPincode(this.value)" style="width:100%; padding:9px; margin-top:4px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;">
+        </div>
+      </div>
+      <p id="pincodeStatus" style="font-size:12px; margin:-5px 0 10px 0; color:#666;"></p>
+
+      <div style="display:flex; gap:10px; margin-bottom:10px;">
+        <div style="flex:1;">
+          <label style="font-size:12px; font-weight:bold; color:#444;">City / District *</label>
+          <input type="text" id="custCity" required readonly style="width:100%; padding:9px; margin-top:4px; border:1px solid #ccc; border-radius:6px; background:#f5f5f5; box-sizing:border-box;">
+        </div>
+        <div style="flex:1;">
+          <label style="font-size:12px; font-weight:bold; color:#444;">State *</label>
+          <input type="text" id="custState" required readonly style="width:100%; padding:9px; margin-top:4px; border:1px solid #ccc; border-radius:6px; background:#f5f5f5; box-sizing:border-box;">
+        </div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <label style="font-size:12px; font-weight:bold; color:#444;">House No., Building, Street, Area *</label>
+        <input type="text" id="custAddress" required placeholder="Flat 4B, Green Park, MG Road" style="width:100%; padding:9px; margin-top:4px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;">
+      </div>
+
+      <div style="margin-bottom:15px;">
+        <label style="font-size:12px; font-weight:bold; color:#444;">Landmark & Email (Optional)</label>
+        <input type="text" id="custLandmark" placeholder="Near City Center / Email for receipt" style="width:100%; padding:9px; margin-top:4px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box;">
+      </div>
+
+      <!-- Order Summary Box -->
+      <div style="background:#f9fafb; border:1px solid #e5e7eb; border-radius:8px; padding:12px; margin-bottom:15px;">
+        <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:6px;">
+          <span id="summaryProductName" style="font-weight:bold; color:#333;">Product</span>
+          <span>₹<span id="summaryBasePrice">0</span></span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:8px; color:#555;">
+          <span>Delivery Charges <small id="deliveryZoneTag">(Enter Pincode)</small></span>
+          <span id="summaryDeliveryFee">--</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:bold; border-top:1px dashed #ccc; padding-top:8px; color:#111;">
+          <span>Total Payable</span>
+          <span>₹<span id="summaryTotal">0</span></span>
+        </div>
+      </div>
+
+      <button type="submit" id="payNowBtn" style="width:100%; background:#fb641b; color:#fff; border:none; padding:12px; font-size:16px; font-weight:bold; border-radius:6px; cursor:pointer;">
+        Proceed to Pay ₹<span id="btnTotal">0</span>
+      </button>
+    </form>
+
+  </div>
+</div>
+<!-- 👇 PASTE THIS ONE LINE RIGHT HERE 👇 -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
   const bisriPolicies = {
     contact: {
@@ -1304,4 +1384,186 @@
   function closePolicyModal() {
     document.getElementById("policyModal").style.display = "none";
   }
+  // Global state for the active order
+let currentOrder = {
+  productName: '',
+  basePrice: 0,
+  deliveryCharge: 0,
+  totalAmount: 0,
+  isPincodeValid: false
+};
+
+// 1. Open Checkout Modal
+function openCheckout(productName, price) {
+  currentOrder = {
+    productName: productName,
+    basePrice: Number(price),
+    deliveryCharge: 0,
+    totalAmount: Number(price),
+    isPincodeValid: false
+  };
+
+  document.getElementById('summaryProductName').innerText = productName;
+  document.getElementById('summaryBasePrice').innerText = currentOrder.basePrice;
+  document.getElementById('summaryDeliveryFee').innerText = '--';
+  document.getElementById('deliveryZoneTag').innerText = '(Enter Pincode)';
+  updateTotals(currentOrder.basePrice);
+
+  // Check if pincode was already typed earlier
+  const existingPin = document.getElementById('custPincode').value;
+  if (existingPin.length === 6) {
+    checkPincode(existingPin);
+  }
+
+  document.getElementById('checkoutModal').style.display = 'flex';
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutModal').style.display = 'none';
+}
+
+function updateTotals(total) {
+  currentOrder.totalAmount = total;
+  document.getElementById('summaryTotal').innerText = total;
+  document.getElementById('btnTotal').innerText = total;
+}
+
+// 2. Free India Post Pincode API + Dynamic Delivery Fee Calculator
+async function checkPincode(pincode) {
+  const statusEl = document.getElementById('pincodeStatus');
+  const cityEl = document.getElementById('custCity');
+  const stateEl = document.getElementById('custState');
+
+  if (pincode.length < 6) {
+    currentOrder.isPincodeValid = false;
+    cityEl.value = '';
+    stateEl.value = '';
+    statusEl.innerText = '';
+    document.getElementById('summaryDeliveryFee').innerText = '--';
+    document.getElementById('deliveryZoneTag').innerText = '(Enter Pincode)';
+    updateTotals(currentOrder.basePrice);
+    return;
+  }
+
+  statusEl.style.color = '#666';
+  statusEl.innerText = 'Checking delivery availability...';
+
+  try {
+    const res = await fetch(`https://api.postalpincode.in/pincode/${pincode}`);
+    const data = await res.json();
+
+    if (data[0].Status === 'Success') {
+      const postOffice = data[0].PostOffice[0];
+      const city = postOffice.District;
+      const state = postOffice.State;
+
+      cityEl.value = city;
+      stateEl.value = state;
+      currentOrder.isPincodeValid = true;
+      statusEl.style.color = 'green';
+      statusEl.innerText = `✓ Delivery available to ${city}, ${state}`;
+
+      calculateShipping(state);
+    } else {
+      currentOrder.isPincodeValid = false;
+      cityEl.value = '';
+      stateEl.value = '';
+      statusEl.style.color = 'red';
+      statusEl.innerText = '✕ Invalid Pincode. Please check again.';
+    }
+  } catch (err) {
+    statusEl.style.color = 'red';
+    statusEl.innerText = 'Network error checking pincode.';
+  }
+}
+
+// 3. Zone-Based Pricing Logic (Customize rates here!)
+function calculateShipping(state) {
+  const localStates = ['Jharkhand', 'West Bengal', 'Odisha', 'Bihar'];
+  let fee = 0;
+  let zoneLabel = '';
+
+  if (currentOrder.basePrice >= 999) {
+    fee = 0;
+    zoneLabel = '(Free Shipping above ₹999)';
+  } else if (localStates.includes(state)) {
+    fee = 50; // ₹50 for East India / nearby states
+    zoneLabel = '(Regional Delivery)';
+  } else {
+    fee = 90; // ₹90 for Rest of India
+    zoneLabel = '(Pan-India Delivery)';
+  }
+
+  currentOrder.deliveryCharge = fee;
+  document.getElementById('deliveryZoneTag').innerText = zoneLabel;
+  document.getElementById('summaryDeliveryFee').innerText = fee === 0 ? 'FREE' : `₹${fee}`;
+  updateTotals(currentOrder.basePrice + fee);
+}
+
+// 4. Trigger Razorpay Payment & Save Order to Firebase
+function handleCheckoutPayment(event) {
+  event.preventDefault();
+
+  if (!currentOrder.isPincodeValid) {
+    alert('Please enter a valid 6-digit Indian pincode.');
+    return;
+  }
+
+  const customerData = {
+    name: document.getElementById('custName').value.trim(),
+    phone: document.getElementById('custPhone').value.trim(),
+    pincode: document.getElementById('custPincode').value.trim(),
+    city: document.getElementById('custCity').value.trim(),
+    state: document.getElementById('custState').value.trim(),
+    address: document.getElementById('custAddress').value.trim(),
+    landmark: document.getElementById('custLandmark').value.trim()
+  };
+
+  const options = {
+    key: 'rzp_live_U3GlbgHKc0bUTJ', // <-- Replace with your Razorpay Key
+    amount: currentOrder.totalAmount * 100, // Razorpay expects paise
+    currency: 'INR',
+    name: 'BiSri Shop',
+    description: `${currentOrder.productName} (+ Delivery)`,
+    prefill: {
+      name: customerData.name,
+      contact: customerData.phone
+    },
+    theme: { color: '#fb641b' },
+    handler: async function (response) {
+      // Payment Succeeded! Save full order details to Firebase Firestore
+      await saveOrderToFirebase(response.razorpay_payment_id, customerData);
+    }
+  };
+
+  const rzp = new Razorpay(options);
+  rzp.open();
+}
+
+// 5. Save Order in Firestore (Compatible with your Firebase v11 Modular SDK)
+async function saveOrderToFirebase(paymentId, customer) {
+  try {
+    const fb = window.bisriFirebase;
+    if (!fb || !fb.db) {
+      throw new Error('Firebase is not initialized yet.');
+    }
+
+    await fb.addDoc(fb.collection(fb.db, 'orders'), {
+      paymentId: paymentId,
+      productName: currentOrder.productName,
+      itemPrice: currentOrder.basePrice,
+      deliveryCharge: currentOrder.deliveryCharge,
+      totalPaid: currentOrder.totalAmount,
+      customer: customer,
+      status: 'Order Placed',
+      createdAt: fb.serverTimestamp()
+    });
+
+    closeCheckout();
+    alert(`Order Confirmed! Payment ID: ${paymentId}\nWe will ship your order to ${customer.city} shortly.`);
+  } catch (error) {
+    console.error('Error saving order:', error);
+    alert(`Payment successful (ID: ${paymentId}), please save this ID and contact support if needed.`);
+  }
+}
 </script>
