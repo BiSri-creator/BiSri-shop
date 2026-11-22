@@ -1098,7 +1098,7 @@
               <span class="price-tag">RS ${p.price}</span>
               <div class="card-btns">
                 <button class="add-btn" data-add="${p.id}">Add</button>
-                <button type="button" class="buy-now-btn" onclick="openCheckout('${p.title.replace(/'/g, "\\'")}', ${p.price})">Buy Now</button>
+                <button type="button" class="buy-now-btn" onclick="openCheckout('${p.title.replace(/'/g, "\\'")}', ${p.price}, ${p.shipRegional || 50}, ${p.shipNational || 90}, ${Boolean(p.isHeavy)})">Buy Now</button>
               </div>
             </div>
 
