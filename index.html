@@ -782,6 +782,69 @@
       font-size: 1.05rem;
       color: var(--ink-muted);
     }
+/* Product Image Zoom Lightbox */
+    .carousel-frame img,
+    .carousel-frame svg {
+      cursor: zoom-in;
+    }
+
+    .lightbox-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(24, 14, 12, 0.88);
+      display: none;
+      place-items: center;
+      z-index: 10000;
+      padding: 1.5rem;
+    }
+
+    .lightbox-backdrop.open {
+      display: grid;
+    }
+
+    .lightbox-stage {
+      position: relative;
+      max-width: 92vw;
+      max-height: 88vh;
+      overflow: auto;
+      border-radius: 16px;
+      border: 3px solid var(--gold);
+      background: var(--bg-card);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-stage img {
+      display: block;
+      max-width: 90vw;
+      max-height: 84vh;
+      object-fit: contain;
+      cursor: zoom-in;
+      transition: transform 0.25s ease;
+      transform-origin: center center;
+    }
+
+    .lightbox-stage img.zoomed {
+      max-width: none;
+      max-height: none;
+      width: 160%;
+      cursor: zoom-out;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: var(--crimson);
+      color: var(--gold-light);
+      font-size: 1.4rem;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 10001;
+    }    
   </style>
 </head>
 <body>
@@ -1627,6 +1690,34 @@ async function saveOrderToFirebase(paymentId, customer) {
     alert(`Payment successful (ID: ${paymentId}), please save this ID and contact support if needed.`);
   }
 }
+// Open image lightbox when clicking any product photo
+document.getElementById("productGrid").addEventListener("click", (e) => {
+  if (e.target.closest(".nav-circle")) return; // ignore carousel arrows
+  const img = e.target.closest(".carousel-frame img");
+  if (!img) return;
+
+  const lightbox = document.getElementById("imageLightbox");
+  const lightboxImg = document.getElementById("lightboxImg");
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt || "Product preview";
+  lightboxImg.classList.remove("zoomed");
+  lightbox.classList.add("open");
+});
+
+function closeLightbox() {
+  document.getElementById("imageLightbox").classList.remove("open");
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeLightbox();
+});
 </script>
+<!-- Product Image Zoom Lightbox -->
+<div class="lightbox-backdrop" id="imageLightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close zoom">&times;</button>
+  <div class="lightbox-stage" onclick="event.stopPropagation()">
+    <img id="lightboxImg" src="" alt="Product zoom preview" onclick="this.classList.toggle('zoomed')" />
+  </div>
+</div>
 </body>
 </html>
