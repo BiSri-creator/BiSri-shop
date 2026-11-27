@@ -1146,10 +1146,7 @@
       slideIndex[p.id] = 0;
       reviewsByProduct[p.id] = [];
     });
-          if (isFirebaseConfigured) {
-      const app = initializeApp(FIREBASE_CONFIG);
-      db = getFirestore(app);
-    }
+        
     // 👇 ADD THIS LINE RIGHT HERE so the checkout modal can save orders to Firebase:
     window.bisriFirebase = { db, collection, addDoc, serverTimestamp };
     // Listen to Real-Time Firestore Reviews
