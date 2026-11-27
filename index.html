@@ -1399,6 +1399,8 @@
 </div>
 <!-- CHECKOUT MODAL (Amazon/Flipkart Style) -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>emailjs.init("FJieGCOEQqRzDlDJl");</script>
 <div id="checkoutModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.65); z-index:9999; justify-content:center; align-items:center; padding:15px;">
   <div style="background:#fff; width:100%; max-width:460px; border-radius:12px; padding:22px; max-height:90vh; overflow-y:auto; font-family:sans-serif; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
     
@@ -1682,7 +1684,24 @@ async function saveOrderToFirebase(paymentId, customer) {
       status: 'Order Placed',
       createdAt: fb.serverTimestamp()
     });
-
+try {
+  await emailjs.send("service_cfruft9", "template_cgygofr", {
+    payment_id: paymentId,
+    product_name: currentOrder.productName,
+    item_price: currentOrder.basePrice,
+    delivery_charge: currentOrder.deliveryCharge,
+    total_paid: currentOrder.totalAmount,
+    cust_name: customer.name,
+    cust_phone: customer.phone,
+    cust_address: customer.address,
+    cust_city: customer.city,
+    cust_state: customer.state,
+    cust_pincode: customer.pincode,
+    cust_landmark: customer.landmark || "N/A"
+  });
+} catch (emailErr) {
+  console.warn("Order saved, but email notification failed:", emailErr);
+}
     closeCheckout();
     alert(`Order Confirmed! Payment ID: ${paymentId}\nWe will ship your order to ${customer.city} shortly.`);
   } catch (error) {
